@@ -5,7 +5,7 @@ from sqlalchemy import ForeignKey, Column, Boolean
 from sqlalchemy import Enum as SqlEnum
 from sqlalchemy.orm import relationship
 
-from cyber_components.db import Product
+from cyber_components.db.models.product import Product
 
 if TYPE_CHECKING:
     from cyber_components.db import DnsSuffix, NetworkInterface, Product

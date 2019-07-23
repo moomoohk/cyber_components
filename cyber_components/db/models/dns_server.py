@@ -1,7 +1,7 @@
 from sqlalchemy import Column, ForeignKey
 from sqlalchemy.orm import relationship
 
-from cyber_components.db import Target
+from cyber_components.db.models.target import Target
 
 
 class DnsServer(Target):

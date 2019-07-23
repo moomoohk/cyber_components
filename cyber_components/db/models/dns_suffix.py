@@ -1,6 +1,6 @@
 from sqlalchemy import Column, ForeignKey, String
 
-from cyber_components.db import Product
+from cyber_components.db.models.product import Product
 
 
 class DnsSuffix(Product):
