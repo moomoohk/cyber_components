@@ -6,6 +6,7 @@ from sqlalchemy import ForeignKey, Column, String, Boolean, Integer
 from sqlalchemy.orm import relationship
 from sqlalchemy_utils import IPAddressType
 
+from cyber_components.db.models.port import Port
 from cyber_components.db.models.product import Product
 
 if TYPE_CHECKING:
@@ -67,8 +68,20 @@ class NetworkInterface(Product):
         foreign_keys="NetworkInterface.dhcp_server_id",
         uselist=False,
     )
+    bound_ports: List["Port"] = relationship(
+        "Port",
+        foreign_keys="Port.parent_id",
+        backref="parent"
+    )
 
     def __repr__(self):
-        return "<NetworkInterface{0}>".format(
-            f" {self.name}" if self.name is not None else ""
+        short_name = self.name
+
+        if short_name is not None and self.name.startswith("isatap"):
+            short_name = "isatap..."
+
+        return "<{0}{1}{2}>".format(
+            f"{self.type.value} Interface" if self.type is not None else "NetworkInterface",
+            f" - {short_name}" if short_name is not None else "",
+            f" ({self.ipv4})" if self.ipv4 is not None else "",
         )
