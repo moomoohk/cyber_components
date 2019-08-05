@@ -1,10 +1,10 @@
 from sqlalchemy import Column, ForeignKey
 from sqlalchemy.orm import relationship
 
-from cyber_components.db.models.target import Target
+from cyber_components.db.models.machine import Machine
 
 
-class DnsServer(Target):
+class DnsServer(Machine):
     __tablename__ = "dns_server"
     __mapper_args__ = {
         "polymorphic_identity": "dns_server",

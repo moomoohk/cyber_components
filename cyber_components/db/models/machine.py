@@ -3,12 +3,14 @@ from typing import List
 from sqlalchemy import Column, ForeignKey, String
 from sqlalchemy.orm import relationship
 
+from cyber_components.db.models.os_info import OsInfo
+from cyber_components.db.models.hardware_info import HardwareInfo
 from cyber_components.db.models.network_info import NetworkInfo
 from cyber_components.db.models.product import Product
 from cyber_components.db.models.session import Session
 
 
-class Target(Product):
+class Machine(Product):
     __tablename__ = "target"
     __mapper_args__ = {
         "polymorphic_identity": "target",
@@ -29,14 +31,28 @@ class Target(Product):
         foreign_keys="Session.parent_id",
         backref="parent",
     )
+    os_info: OsInfo = relationship(
+        "OsInfo",
+        foreign_keys="OsInfo.parent_id",
+        backref="parent",
+        uselist=False,
+    )
+    hardware_info: HardwareInfo = relationship(
+        "HardwareInfo",
+        foreign_keys="HardwareInfo.parent_id",
+        backref="parent",
+        uselist=False,
+    )
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
         self.network_info = NetworkInfo()
+        self.os_info = OsInfo()
+        self.hardware_info = HardwareInfo()
 
     def __repr__(self):
-        return "<Target{0}>".format(
+        return "<Machine{0}>".format(
             f" {self.hostname}" if self.hostname else ""
         )
 

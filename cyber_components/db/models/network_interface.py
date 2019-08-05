@@ -10,7 +10,7 @@ from cyber_components.db.models.port import Port
 from cyber_components.db.models.product import Product
 
 if TYPE_CHECKING:
-    from cyber_components.db import DnsServer, DnsSuffix, Target
+    from cyber_components.db import DnsServer, DnsSuffix, Machine
 
 
 class InterfaceType(Enum):
@@ -58,12 +58,12 @@ class NetworkInterface(Product):
         "DnsServer",
         secondary="dns_servers",
     )
-    default_gateway: "Target" = relationship(
+    default_gateway: "Machine" = relationship(
         "NetworkInterface",
         foreign_keys="NetworkInterface.default_gateway_id",
         uselist=False,
     )
-    dhcp_server: "Target" = relationship(
+    dhcp_server: "Machine" = relationship(
         "NetworkInterface",
         foreign_keys="NetworkInterface.dhcp_server_id",
         uselist=False,

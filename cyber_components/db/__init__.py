@@ -11,16 +11,17 @@ from cyber_components.db.models.port import Port, PortState, Protocol
 from cyber_components.db.models.process import Process
 from cyber_components.db.models.product import Product
 from cyber_components.db.models.session import Session
-from cyber_components.db.models.target import Target
+from cyber_components.db.models.machine import Machine
+from cyber_components.db.models.os_info import OsInfo
+from cyber_components.db.models.hardware_info import HardwareInfo
+from cyber_components.db.models.regional_info import RegionalInfo
+
 
 Base.metadata.drop_all(engine)
 Base.metadata.create_all(engine)
 
 
-def get_target_by_ip(ip: str):
-    target = session.query(NetworkInterface)\
+def get_interface_by_ip(ip: str):
+    return session.query(NetworkInterface)\
         .filter(NetworkInterface.ipv4 == ip)\
         .one_or_none()
-
-    if target is not None:
-        return target.parent.parent
