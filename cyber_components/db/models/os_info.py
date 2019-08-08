@@ -5,9 +5,6 @@ from cyber_components.db.models.product import Product
 
 class OsInfo(Product):
     __tablename__ = "os_info"
-    __mapper_args__ = {
-        "polymorphic_identity": "os_info",
-    }
 
     id = Column(ForeignKey("product.id"), primary_key=True)
     parent_id = Column(ForeignKey("machine.id"))
@@ -21,6 +18,10 @@ class OsInfo(Product):
     registered_organization = Column(String)
     product_id = Column(String)
     original_install_date = Column(DateTime)
+
+    __mapper_args__ = {
+        "polymorphic_identity": "os_info",
+    }
 
     # hotfixes
 

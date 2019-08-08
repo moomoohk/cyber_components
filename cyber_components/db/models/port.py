@@ -24,9 +24,6 @@ class Protocol(Enum):
 
 class Port(Product):
     __tablename__ = "port"
-    __mapper_args__ = {
-        "polymorphic_identity": "port",
-    }
 
     id = Column(ForeignKey("product.id"), primary_key=True)
     parent_id = Column(ForeignKey("network_interface.id"))
@@ -41,6 +38,10 @@ class Port(Product):
         "Port",
         foreign_keys="Port.connected_to_id",
     )
+
+    __mapper_args__ = {
+        "polymorphic_identity": "port",
+    }
 
     def __repr__(self):
         return "<Port{0}{1}{2}>".format(

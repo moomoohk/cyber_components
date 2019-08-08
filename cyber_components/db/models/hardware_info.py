@@ -5,9 +5,6 @@ from cyber_components.db.models.product import Product
 
 class HardwareInfo(Product):
     __tablename__ = "hardware_info"
-    __mapper_args__ = {
-        "polymorphic_identity": "hardware_info",
-    }
 
     id = Column(ForeignKey("product.id"), primary_key=True)
     parent_id = Column(ForeignKey("machine.id"))
@@ -23,6 +20,10 @@ class HardwareInfo(Product):
     max_virtual_memory = Column(Integer)
     available_virtual_memory = Column(Integer)
     used_virtual_memory = Column(Integer)
+
+    __mapper_args__ = {
+        "polymorphic_identity": "hardware_info",
+    }
 
     # processors
 

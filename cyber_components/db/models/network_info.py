@@ -21,9 +21,6 @@ class NodeType(Enum):
 
 class NetworkInfo(Product):
     __tablename__ = "network_info"
-    __mapper_args__ = {
-        "polymorphic_identity": "network_info",
-    }
 
     id = Column(ForeignKey("product.id"), primary_key=True)
     parent_id = Column(ForeignKey("machine.id"))
@@ -42,6 +39,10 @@ class NetworkInfo(Product):
         "DnsSuffix",
         secondary="dns_suffixes",
     )
+
+    __mapper_args__ = {
+        "polymorphic_identity": "network_info",
+    }
 
     def __repr__(self):
         return f"<NetworkInfo - {len(self.interfaces)} interfaces>"

@@ -22,9 +22,6 @@ class InterfaceType(Enum):
 
 class NetworkInterface(Product):
     __tablename__ = "network_interface"
-    __mapper_args__ = {
-        "polymorphic_identity": "network_interface",
-    }
 
     id = Column(ForeignKey("product.id"), primary_key=True)
     parent_id = Column(ForeignKey("network_info.id"))
@@ -74,6 +71,10 @@ class NetworkInterface(Product):
         foreign_keys="Port.parent_id",
         backref="parent"
     )
+
+    __mapper_args__ = {
+        "polymorphic_identity": "network_interface",
+    }
 
     def __repr__(self):
         short_name = self.name

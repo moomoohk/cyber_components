@@ -6,9 +6,6 @@ from cyber_components.db.models.machine import Machine
 
 class DnsServer(Machine):
     __tablename__ = "dns_server"
-    __mapper_args__ = {
-        "polymorphic_identity": "dns_server",
-    }
 
     id = Column(ForeignKey("machine.id"), primary_key=True)
 
@@ -16,3 +13,7 @@ class DnsServer(Machine):
         "NetworkInterface",
         secondary="dns_servers",
     )
+
+    __mapper_args__ = {
+        "polymorphic_identity": "dns_server",
+    }

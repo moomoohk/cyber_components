@@ -13,9 +13,6 @@ from cyber_components.db.models.session import Session
 
 class Machine(Product):
     __tablename__ = "machine"
-    __mapper_args__ = {
-        "polymorphic_identity": "machine",
-    }
 
     id = Column(ForeignKey("product.id"), primary_key=True)
 
@@ -49,6 +46,10 @@ class Machine(Product):
         foreign_keys="Drive.parent_id",
         backref="parent",
     )
+
+    __mapper_args__ = {
+        "polymorphic_identity": "machine",
+    }
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

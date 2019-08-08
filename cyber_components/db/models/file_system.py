@@ -13,10 +13,6 @@ class FileSystemObject(Product):
 
     name = Column(String)
 
-    __mapper_args__ = {
-        "polymorphic_identity": "file_system_object",
-    }
-
     files: List["File"] = relationship(
         "File",
         foreign_keys="File.parent_id",
@@ -27,6 +23,10 @@ class FileSystemObject(Product):
         foreign_keys="Folder.parent_id",
         backref="parent",
     )
+
+    __mapper_args__ = {
+        "polymorphic_identity": "file_system_object",
+    }
 
 
 class Drive(FileSystemObject):

@@ -10,15 +10,16 @@ from cyber_components.db.models.process import Process
 
 class Session(Product):
     __tablename__ = "session"
-    __mapper_args__ = {
-        "polymorphic_identity": "session",
-    }
 
     id = Column(ForeignKey("product.id"), primary_key=True)
     parent_id = Column(ForeignKey("machine.id"))
 
     number = Column(Integer)
     name = Column(String)
+
+    __mapper_args__ = {
+        "polymorphic_identity": "session",
+    }
 
     processes: List[Process] = relationship(
         "Process",
