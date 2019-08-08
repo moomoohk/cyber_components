@@ -8,6 +8,7 @@ from sqlalchemy_utils import IPAddressType
 
 from cyber_components.db.models.port import Port
 from cyber_components.db.models.product import Product
+from cyber_components.db.connection import session
 
 if TYPE_CHECKING:
     from cyber_components.db import DnsServer, DnsSuffix, Machine

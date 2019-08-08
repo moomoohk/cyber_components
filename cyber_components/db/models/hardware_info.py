@@ -10,7 +10,7 @@ class HardwareInfo(Product):
     }
 
     id = Column(ForeignKey("product.id"), primary_key=True)
-    parent_id = Column(ForeignKey("target.id"))
+    parent_id = Column(ForeignKey("machine.id"))
 
     system_boot_time = Column(DateTime)
     system_manufacturer = Column(String)

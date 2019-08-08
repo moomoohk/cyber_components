@@ -10,7 +10,7 @@ class DnsServer(Machine):
         "polymorphic_identity": "dns_server",
     }
 
-    id = Column(ForeignKey("target.id"), primary_key=True)
+    id = Column(ForeignKey("machine.id"), primary_key=True)
 
     clients = relationship(
         "NetworkInterface",

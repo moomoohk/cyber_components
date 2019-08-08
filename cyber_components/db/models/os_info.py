@@ -10,7 +10,7 @@ class OsInfo(Product):
     }
 
     id = Column(ForeignKey("product.id"), primary_key=True)
-    parent_id = Column(ForeignKey("target.id"))
+    parent_id = Column(ForeignKey("machine.id"))
 
     name = Column(String)
     version = Column(String)

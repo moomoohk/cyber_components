@@ -26,7 +26,7 @@ class NetworkInfo(Product):
     }
 
     id = Column(ForeignKey("product.id"), primary_key=True)
-    parent_id = Column(ForeignKey("target.id"))
+    parent_id = Column(ForeignKey("machine.id"))
 
     primary_dns_suffix_id = Column(ForeignKey("dns_suffix.id"))
     node_type = Column(SqlEnum(NodeType))

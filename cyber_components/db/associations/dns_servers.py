@@ -9,5 +9,5 @@ class DnsServers(Base):
         PrimaryKeyConstraint("server_id", "client_id"),
     )
 
-    server_id = Column(ForeignKey("target.id"))
+    server_id = Column(ForeignKey("machine.id"))
     client_id = Column(ForeignKey("network_interface.id"))

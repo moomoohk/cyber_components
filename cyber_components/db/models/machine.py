@@ -3,6 +3,7 @@ from typing import List
 from sqlalchemy import Column, ForeignKey, String
 from sqlalchemy.orm import relationship
 
+from cyber_components.db.models.file_system import Drive
 from cyber_components.db.models.os_info import OsInfo
 from cyber_components.db.models.hardware_info import HardwareInfo
 from cyber_components.db.models.network_info import NetworkInfo
@@ -11,9 +12,9 @@ from cyber_components.db.models.session import Session
 
 
 class Machine(Product):
-    __tablename__ = "target"
+    __tablename__ = "machine"
     __mapper_args__ = {
-        "polymorphic_identity": "target",
+        "polymorphic_identity": "machine",
     }
 
     id = Column(ForeignKey("product.id"), primary_key=True)
