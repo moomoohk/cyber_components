@@ -44,6 +44,11 @@ class Machine(Product):
         backref="parent",
         uselist=False,
     )
+    drives: List[Drive] = relationship(
+        "Drive",
+        foreign_keys="Drive.parent_id",
+        backref="parent",
+    )
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
