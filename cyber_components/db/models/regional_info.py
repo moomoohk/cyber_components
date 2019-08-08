@@ -1,12 +1,12 @@
 from sqlalchemy import Column, ForeignKey, String, DateTime
 
-from cyber_components.db.models.product import Product
+from cyber_components.db.models.component import Component
 
 
-class RegionalInfo(Product):
+class RegionalInfo(Component):
     __tablename__ = "regional_info"
 
-    id = Column(ForeignKey("product.id"), primary_key=True)
+    id = Column(ForeignKey("component.id"), primary_key=True)
 
     __mapper_args__ = {
         "polymorphic_identity": "regional_info",

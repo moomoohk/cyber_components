@@ -13,7 +13,7 @@ from cyber_components.db.models.network_info import NetworkInfo, NodeType
 from cyber_components.db.models.network_interface import NetworkInterface, InterfaceType
 from cyber_components.db.models.port import Port, PortState, Protocol
 from cyber_components.db.models.process import Process
-from cyber_components.db.models.product import Product
+from cyber_components.db.models.component import Component
 from cyber_components.db.models.session import Session
 from cyber_components.db.models.machine import Machine
 from cyber_components.db.models.os_info import OsInfo

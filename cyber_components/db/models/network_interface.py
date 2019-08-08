@@ -7,7 +7,7 @@ from sqlalchemy.orm import relationship
 from sqlalchemy_utils import IPAddressType
 
 from cyber_components.db.models.port import Port
-from cyber_components.db.models.product import Product
+from cyber_components.db.models.component import Component
 from cyber_components.db.connection import session
 
 if TYPE_CHECKING:
@@ -20,10 +20,10 @@ class InterfaceType(Enum):
     TUNNEL = "Tunnel"
 
 
-class NetworkInterface(Product):
+class NetworkInterface(Component):
     __tablename__ = "network_interface"
 
-    id = Column(ForeignKey("product.id"), primary_key=True)
+    id = Column(ForeignKey("component.id"), primary_key=True)
     parent_id = Column(ForeignKey("network_info.id"))
 
     type = Column(SqlEnum(InterfaceType))
@@ -87,3 +87,9 @@ class NetworkInterface(Product):
             f" - {short_name}" if short_name is not None else "",
             f" ({self.ipv4})" if self.ipv4 is not None else "",
         )
+
+    @staticmethod
+    def get_interface_by_ip(ip: str):
+        return session.query(NetworkInterface) \
+            .filter(NetworkInterface.ipv4 == ip) \
+            .one_or_none()

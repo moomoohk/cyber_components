@@ -1,12 +1,12 @@
 from sqlalchemy import Column, ForeignKey, String, DateTime, Integer
 
-from cyber_components.db.models.product import Product
+from cyber_components.db.models.component import Component
 
 
-class HardwareInfo(Product):
+class HardwareInfo(Component):
     __tablename__ = "hardware_info"
 
-    id = Column(ForeignKey("product.id"), primary_key=True)
+    id = Column(ForeignKey("component.id"), primary_key=True)
     parent_id = Column(ForeignKey("machine.id"))
 
     system_boot_time = Column(DateTime)

@@ -1,12 +1,12 @@
 from sqlalchemy import Column, ForeignKey, String
 
-from cyber_components.db.models.product import Product
+from cyber_components.db.models.component import Component
 
 
-class DnsSuffix(Product):
+class DnsSuffix(Component):
     __tablename__ = "dns_suffix"
 
-    id = Column(ForeignKey("product.id"), primary_key=True)
+    id = Column(ForeignKey("component.id"), primary_key=True)
 
     suffix = Column(String(), unique=True)
 

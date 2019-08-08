@@ -5,10 +5,10 @@ from sqlalchemy import ForeignKey, Column, Boolean
 from sqlalchemy import Enum as SqlEnum
 from sqlalchemy.orm import relationship
 
-from cyber_components.db.models.product import Product
+from cyber_components.db.models.component import Component
 
 if TYPE_CHECKING:
-    from cyber_components.db import DnsSuffix, NetworkInterface, Product
+    from cyber_components.db import DnsSuffix, NetworkInterface, Component
 
 
 class NodeType(Enum):
@@ -19,10 +19,10 @@ class NodeType(Enum):
     UNKNOWN = "Unknown"
 
 
-class NetworkInfo(Product):
+class NetworkInfo(Component):
     __tablename__ = "network_info"
 
-    id = Column(ForeignKey("product.id"), primary_key=True)
+    id = Column(ForeignKey("component.id"), primary_key=True)
     parent_id = Column(ForeignKey("machine.id"))
 
     primary_dns_suffix_id = Column(ForeignKey("dns_suffix.id"))

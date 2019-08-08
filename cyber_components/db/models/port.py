@@ -5,7 +5,7 @@ from sqlalchemy import Enum as SqlEnum
 from sqlalchemy import ForeignKey, Column, Integer
 from sqlalchemy.orm import relationship
 
-from cyber_components.db.models.product import Product
+from cyber_components.db.models.component import Component
 
 
 class PortState(Enum):
@@ -22,10 +22,10 @@ class Protocol(Enum):
     UDPv6 = 3
 
 
-class Port(Product):
+class Port(Component):
     __tablename__ = "port"
 
-    id = Column(ForeignKey("product.id"), primary_key=True)
+    id = Column(ForeignKey("component.id"), primary_key=True)
     parent_id = Column(ForeignKey("network_interface.id"))
 
     protocol = Column(SqlEnum(Protocol))

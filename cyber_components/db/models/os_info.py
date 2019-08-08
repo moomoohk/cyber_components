@@ -1,12 +1,12 @@
 from sqlalchemy import Column, ForeignKey, String, DateTime
 
-from cyber_components.db.models.product import Product
+from cyber_components.db.models.component import Component
 
 
-class OsInfo(Product):
+class OsInfo(Component):
     __tablename__ = "os_info"
 
-    id = Column(ForeignKey("product.id"), primary_key=True)
+    id = Column(ForeignKey("component.id"), primary_key=True)
     parent_id = Column(ForeignKey("machine.id"))
 
     name = Column(String)

@@ -3,13 +3,13 @@ from typing import List
 from sqlalchemy import Column, ForeignKey, String, Integer
 from sqlalchemy.orm import relationship
 
-from cyber_components.db.models.product import Product
+from cyber_components.db.models.component import Component
 
 
-class FileSystemObject(Product):
+class FileSystemObject(Component):
     __tablename__ = "file_system_object"
 
-    id = Column(ForeignKey("product.id"), primary_key=True)
+    id = Column(ForeignKey("component.id"), primary_key=True)
 
     name = Column(String)
 

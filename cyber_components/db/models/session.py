@@ -3,15 +3,15 @@ from typing import List
 from sqlalchemy import ForeignKey, Column, Integer, String
 from sqlalchemy.orm import relationship
 
-from cyber_components.db.models.product import Product
+from cyber_components.db.models.component import Component
 
 from cyber_components.db.models.process import Process
 
 
-class Session(Product):
+class Session(Component):
     __tablename__ = "session"
 
-    id = Column(ForeignKey("product.id"), primary_key=True)
+    id = Column(ForeignKey("component.id"), primary_key=True)
     parent_id = Column(ForeignKey("machine.id"))
 
     number = Column(Integer)

@@ -1,12 +1,12 @@
 from sqlalchemy import Column, ForeignKey, Integer, String
 
-from cyber_components.db.models.product import Product
+from cyber_components.db.models.component import Component
 
 
-class Process(Product):
+class Process(Component):
     __tablename__ = "process"
 
-    id = Column(ForeignKey("product.id"), primary_key=True)
+    id = Column(ForeignKey("component.id"), primary_key=True)
     parent_id = Column(ForeignKey("session.id"))
 
     pid = Column(Integer)
