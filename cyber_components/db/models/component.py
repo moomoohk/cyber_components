@@ -10,6 +10,6 @@ class Component(Base):
     _type = Column(String(50))
 
     __mapper_args__ = {
-        "polymorphic_identity": "employee",
+        "polymorphic_identity": "component",
         "polymorphic_on": _type,
     }
