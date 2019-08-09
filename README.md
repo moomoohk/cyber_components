@@ -29,6 +29,7 @@ Suppose you'd like to represent a machine that has:
 ```python
 from cyber_components.db import Machine, NetworkInterface, Port, PortState, Protocol, Session, Process
 
+
 machine = Machine(
     hostname="test",
 )
@@ -59,3 +60,7 @@ machine.network_info.interfaces.append(loopback)
 machine.sessions.append(session)
 
 ``` 
+
+## Behind the scenes
+
+`cyber_components` uses SQLAlchemy to provide intuitive Python objects that are stored in an SQLite database
