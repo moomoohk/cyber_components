@@ -33,7 +33,7 @@ class Drive(FileSystemObject):
     id = Column(ForeignKey("file_system_object.id"), primary_key=True)
     parent_id = Column(ForeignKey("machine.id"))
 
-    drive_letter = Column(String)
+    letter = Column(String)
 
     __mapper_args__ = {
         "polymorphic_identity": "drive",
@@ -41,11 +41,11 @@ class Drive(FileSystemObject):
 
     @property
     def path(self):
-        return f"{self.drive_letter}:"
+        return f"{self.letter}:"
 
     def __repr__(self):
         return "<Drive{0}>".format(
-            f" {self.drive_letter}:" if self.drive_letter is not None else "",
+            f" {self.letter}:" if self.letter is not None else "",
         )
 
 
