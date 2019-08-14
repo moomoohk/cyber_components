@@ -18,16 +18,22 @@ class Machine(Component):
 
     hostname = Column(String)
 
+    sessions: List[Session] = relationship(
+        "Session",
+        foreign_keys="Session.parent_id",
+        backref="parent",
+    )
+    drives: List[Drive] = relationship(
+        "Drive",
+        foreign_keys="Drive.parent_id",
+        backref="parent",
+    )
+    
     network_info: NetworkInfo = relationship(
         "NetworkInfo",
         foreign_keys="NetworkInfo.parent_id",
         backref="parent",
         uselist=False,
-    )
-    sessions: List[Session] = relationship(
-        "Session",
-        foreign_keys="Session.parent_id",
-        backref="parent",
     )
     os_info: OsInfo = relationship(
         "OsInfo",
@@ -40,11 +46,6 @@ class Machine(Component):
         foreign_keys="HardwareInfo.parent_id",
         backref="parent",
         uselist=False,
-    )
-    drives: List[Drive] = relationship(
-        "Drive",
-        foreign_keys="Drive.parent_id",
-        backref="parent",
     )
 
     __mapper_args__ = {
