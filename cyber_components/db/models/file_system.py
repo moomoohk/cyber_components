@@ -11,8 +11,6 @@ class FileSystemObject(Component):
 
     id = Column(ForeignKey("component.id"), primary_key=True)
 
-    name = Column(String)
-
     files: List["File"] = relationship(
         "File",
         foreign_keys="File.parent_id",
@@ -35,22 +33,15 @@ class Drive(FileSystemObject):
     id = Column(ForeignKey("file_system_object.id"), primary_key=True)
     parent_id = Column(ForeignKey("machine.id"))
 
+    drive_letter = Column(String)
+
     __mapper_args__ = {
         "polymorphic_identity": "drive",
     }
 
-    def __init__(self, drive_letter=None, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-
-        self.name = drive_letter or self.name
-
     @property
-    def drive_letter(self):
-        return self.name
-
-    @drive_letter.setter
-    def drive_letter(self, value):
-        self.name = value
+    def path(self):
+        return f"{self.drive_letter}:"
 
     def __repr__(self):
         return "<Drive{0}>".format(
@@ -58,15 +49,31 @@ class Drive(FileSystemObject):
         )
 
 
-class Folder(FileSystemObject):
-    __tablename__ = "folder"
+class SubItem(FileSystemObject):
+    __tablename__ = "fs_subitem"
 
     id = Column(ForeignKey("file_system_object.id"), primary_key=True)
     parent_id = Column(ForeignKey("file_system_object.id"))
 
+    name = Column(String)
+
+    __mapper_args__ = {
+        "polymorphic_identity": "fs_subitem",
+        "inherit_condition": id == FileSystemObject.id,
+    }
+
+    @property
+    def path(self):
+        return f"{self.parent.path}\\{self.name}"
+
+
+class Folder(SubItem):
+    __tablename__ = "folder"
+
+    id = Column(ForeignKey("fs_subitem.id"), primary_key=True)
+
     __mapper_args__ = {
         "polymorphic_identity": "folder",
-        "inherit_condition": id == FileSystemObject.id,
     }
 
     def __repr__(self):
@@ -75,17 +82,15 @@ class Folder(FileSystemObject):
         )
 
 
-class File(FileSystemObject):
+class File(SubItem):
     __tablename__ = "file"
 
-    id = Column(ForeignKey("file_system_object.id"), primary_key=True)
-    parent_id = Column(ForeignKey("file_system_object.id"))
+    id = Column(ForeignKey("fs_subitem.id"), primary_key=True)
 
     size = Column(Integer)
 
     __mapper_args__ = {
         "polymorphic_identity": "file",
-        "inherit_condition": id == FileSystemObject.id,
     }
 
     def __repr__(self):
