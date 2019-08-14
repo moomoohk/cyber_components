@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Union
 
 from sqlalchemy import Column, ForeignKey, String, Integer
 from sqlalchemy.orm import relationship
@@ -54,6 +54,8 @@ class SubItem(FileSystemObject):
 
     id = Column(ForeignKey("file_system_object.id"), primary_key=True)
     parent_id = Column(ForeignKey("file_system_object.id"))
+
+    parent: Union[Drive, "SubItem"]
 
     name = Column(String)
 
