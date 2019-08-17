@@ -19,30 +19,30 @@ class Machine(Component):
     hostname = Column(String)
 
     sessions: List[Session] = relationship(
-        "Session",
+        Session,
         foreign_keys="Session.parent_id",
         backref="parent",
     )
     drives: List[Drive] = relationship(
-        "Drive",
+        Drive,
         foreign_keys="Drive.parent_id",
         backref="parent",
     )
     
     network_info: NetworkInfo = relationship(
-        "NetworkInfo",
+        NetworkInfo,
         foreign_keys="NetworkInfo.parent_id",
         backref="parent",
         uselist=False,
     )
     os_info: OsInfo = relationship(
-        "OsInfo",
+        OsInfo,
         foreign_keys="OsInfo.parent_id",
         backref="parent",
         uselist=False,
     )
     hardware_info: HardwareInfo = relationship(
-        "HardwareInfo",
+        HardwareInfo,
         foreign_keys="HardwareInfo.parent_id",
         backref="parent",
         uselist=False,
