@@ -8,7 +8,6 @@ from sqlalchemy import ForeignKey, Column, String, Boolean, Integer
 from sqlalchemy.orm import relationship, composite
 from sqlalchemy_utils import IPAddressType
 
-from cyber_components.db.connection import session
 from cyber_components.db.models.component import Component
 from cyber_components.db.models.dns_server import DnsServer
 from cyber_components.db.models.dns_suffix import DnsSuffix
@@ -110,9 +109,3 @@ class NetworkInterface(Component):
             f" - {short_name}" if short_name is not None else "",
             f" ({self.ipv4.ip})" if self.ipv4 is not None else "",
         )
-
-    @staticmethod
-    def get_interface_by_ip(ip: str):
-        return session.query(NetworkInterface) \
-            .filter(NetworkInterface.ipv4_address == ip) \
-            .one_or_none()
