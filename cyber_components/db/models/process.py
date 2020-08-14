@@ -7,12 +7,12 @@ class Process(Component):
     __tablename__ = "process"
 
     id = Column(ForeignKey("component.id"), primary_key=True)
-    parent_id = Column(ForeignKey("session.id"))
+    parent_id = Column(ForeignKey("machine.id"))
 
     pid = Column(Integer)
     parent_pid = Column(Integer)
     name = Column(String)
-    session_name = Column(String)
+    session_id = Column(ForeignKey("session.id"))
 
     __mapper_args__ = {
         "polymorphic_identity": "process",

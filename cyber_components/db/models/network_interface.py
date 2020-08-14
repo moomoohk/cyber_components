@@ -1,18 +1,16 @@
 from enum import Enum
-from ipaddress import IPv4Interface as _IPv4Interface
-from ipaddress import ip_network
+from ipaddress import IPv4Interface as _IPv4Interface, IPv6Interface as _IPv6Interface, ip_network
 from typing import List
 
-from sqlalchemy import Enum as SqlEnum
-from sqlalchemy import ForeignKey, Column, String, Boolean, Integer
-from sqlalchemy.orm import relationship, composite
-from sqlalchemy_utils import IPAddressType
-
+from cyber_components.db.connection import Connection
 from cyber_components.db.models.component import Component
 from cyber_components.db.models.dns_server import DnsServer
 from cyber_components.db.models.dns_suffix import DnsSuffix
 from cyber_components.db.models.machine import Machine
 from cyber_components.db.models.port import Port
+from sqlalchemy import Enum as SqlEnum, ForeignKey, Column, String, Boolean, Integer
+from sqlalchemy.orm import relationship, composite
+from sqlalchemy_utils import IPAddressType
 
 
 class InterfaceType(Enum):
@@ -30,7 +28,31 @@ class IPv4Interface(_IPv4Interface):
             super().__init__((address, mask.prefixlen))
 
     def __composite_values__(self):
-        return int(self.ip), self.network.prefixlen
+        return str(self.ip), self.network.prefixlen
+
+
+class IPv6Interface(_IPv6Interface):
+    def __init__(self, address, mask=None):
+        if mask is None:
+            super().__init__(address)
+        else:
+            mask = ip_network(mask)
+            super().__init__((address, mask.prefixlen))
+
+    def __composite_values__(self):
+        return str(self.ip), self.network.prefixlen
+
+
+def ip_interface(address, mask=None):
+    try:
+        return IPv4Interface(address, mask)
+    except:
+        pass
+
+    try:
+        return IPv6Interface(address, mask)
+    except:
+        pass
 
 
 class NetworkInterface(Component):
@@ -49,7 +71,7 @@ class NetworkInterface(Component):
     autoconfiguration_enabled = Column(Boolean())
     link_local_ipv6 = Column(IPAddressType())
     link_local_ipv6_preferred = Column(Boolean(), default=False)
-    _ipv4 = Column(Integer())
+    _ip = Column(String())
     ipv4_preferred = Column(Boolean(), default=False)
     subnet_prefix_length = Column(Integer())
     lease_obtained = Column(String())  # TODO: Datetime
@@ -60,7 +82,7 @@ class NetworkInterface(Component):
     dhcpv6_client_duid = Column(String())
     netbios_over_tcpip_enabled = Column(Boolean())
 
-    ipv4 = composite(IPv4Interface, _ipv4, subnet_prefix_length)
+    ip = composite(ip_interface, _ip, subnet_prefix_length)
 
     bound_ports: List[Port] = relationship(
         "Port",
@@ -93,8 +115,8 @@ class NetworkInterface(Component):
     }
 
     def __init__(self, *args, **kwargs):
-        if "ipv4" in kwargs and type(kwargs["ipv4"]) is str:
-            kwargs["ipv4"] = IPv4Interface(kwargs["ipv4"])
+        if "ip" in kwargs and type(kwargs["ip"]) not in (IPv4Interface, IPv6Interface):
+            kwargs["ip"] = ip_interface(kwargs["ip"])
 
         super().__init__(*args, **kwargs)
 
@@ -107,5 +129,8 @@ class NetworkInterface(Component):
         return "<{0}{1}{2}>".format(
             f"{self.type.value} Interface" if self.type is not None else "NetworkInterface",
             f" - {short_name}" if short_name is not None else "",
-            f" ({self.ipv4.ip})" if self.ipv4 is not None else "",
+            f" ({self.ip.ip})" if self.ip is not None else "",
         )
+
+    def get_port(self, number: int):
+        return Connection.session.query(Port).filter_by(number=number, parent_id=self.id).one_or_none()

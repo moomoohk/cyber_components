@@ -1,9 +1,9 @@
 from sqlalchemy import Column, ForeignKey, PrimaryKeyConstraint
 
-from cyber_components.db.connection import Base
+from cyber_components.db.connection import Connection
 
 
-class DnsServers(Base):
+class DnsServers(Connection.Base):
     __tablename__ = "dns_servers"
     __table_args__ = (
         PrimaryKeyConstraint("server_id", "client_id"),

@@ -3,8 +3,9 @@ from typing import List, TYPE_CHECKING
 
 from sqlalchemy import ForeignKey, Column, Boolean
 from sqlalchemy import Enum as SqlEnum
-from sqlalchemy.orm import relationship
+from sqlalchemy.orm import relationship, sessionmaker
 
+from cyber_components.db.connection import Connection
 from cyber_components.db.models.component import Component
 
 if TYPE_CHECKING:
@@ -46,3 +47,9 @@ class NetworkInfo(Component):
 
     def __repr__(self):
         return f"<NetworkInfo - {len(self.interfaces)} interfaces>"
+
+    def get_interface_by_ip(self, ip: str):
+        from cyber_components.db import NetworkInterface
+
+        # session = sessionmaker(self.metadata.bind)()
+        return Connection.session.query(NetworkInterface).filter_by(_ip=ip, parent_id=self.id).one_or_none()

@@ -38,15 +38,15 @@ class Subnet(Component):
         foreign_keys=gateway_id,
     )
 
-    interfaces: List[NetworkInterface] = relationship(
-        NetworkInterface,
-        foreign_keys=start_address,
-        primaryjoin='Subnet.start_address.op(">>")(Subnet.max_prefix_length - Subnet.prefix_length) == '
-                    'remote(NetworkInterface._ipv4).op(">>")'
-                    '(Subnet.max_prefix_length - remote(NetworkInterface.subnet_prefix_length))',
-        backref="subnet",
-        uselist=False,
-    )
+    # interfaces: List[NetworkInterface] = relationship(
+    #     NetworkInterface,
+    #     foreign_keys=start_address,
+    #     primaryjoin='Subnet.start_address.op(">>")(Subnet.max_prefix_length - Subnet.prefix_length) == '
+    #                 'remote(NetworkInterface._ip).op(">>")'
+    #                 '(Subnet.max_prefix_length - remote(NetworkInterface.subnet_prefix_length))',
+    #     backref="subnet",
+    #     uselist=False,
+    # )
 
     __mapper_args__ = {
         "polymorphic_identity": "subnet",

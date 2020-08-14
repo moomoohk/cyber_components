@@ -1,9 +1,9 @@
 from sqlalchemy import Column, String, Integer
 
-from cyber_components.db.connection import Base
+from cyber_components.db.connection import Connection
 
 
-class Component(Base):
+class Component(Connection.Base):
     __tablename__ = "component"
 
     id = Column(Integer, primary_key=True, autoincrement=True)

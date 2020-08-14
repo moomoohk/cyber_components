@@ -1,9 +1,9 @@
 from sqlalchemy import Column, ForeignKey, PrimaryKeyConstraint
 
-from cyber_components.db.connection import Base
+from cyber_components.db.connection import Connection
 
 
-class DnsSuffixes(Base):
+class DnsSuffixes(Connection.Base):
     __tablename__ = "dns_suffixes"
     __table_args__ = (
         PrimaryKeyConstraint("network_info_id", "suffix_id"),

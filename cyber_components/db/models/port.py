@@ -9,10 +9,19 @@ from cyber_components.db.models.component import Component
 
 
 class PortState(Enum):
-    LISTENING = 0
-    CLOSE_WAIT = 1
+    CLOSE_WAIT = 0
+    CLOSED = 1
     ESTABLISHED = 2
-    TIME_WAIT = 3
+    FIN_WAIT_1 = 3
+    FIN_WAIT_2 = 4
+    LISTEN = 5
+    SYN_RECEIVED = 6
+    SYN_SEND = 7
+    TIME_WAIT = 8
+
+    # For Windows
+    LISTENING = LISTEN
+    SYN_SENT = SYN_SEND
 
 
 class Protocol(Enum):
@@ -46,6 +55,6 @@ class Port(Component):
     def __repr__(self):
         return "<Port{0}{1}{2}>".format(
             f" {self.number}" if self.number is not None else "",
-            f" {self.protocol}" if self.protocol is not None else "",
-            f" {self.state}" if self.state.name is not None else "",
+            f" {self.protocol.name}" if self.protocol is not None else "",
+            f" {self.state.name}" if self.state is not None else "",
         )

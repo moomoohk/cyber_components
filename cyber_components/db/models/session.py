@@ -17,28 +17,14 @@ class Session(Component):
     number = Column(Integer)
     name = Column(String)
 
+    processes = relationship("Process", foreign_keys="Process.session_id", uselist=True, backref="session")
+
     __mapper_args__ = {
         "polymorphic_identity": "session",
     }
-
-    processes: List[Process] = relationship(
-        "Process",
-        foreign_keys="Process.parent_id",
-        backref="parent",
-    )
 
     def __repr__(self):
         return "<Session{0}{1}>".format(
             f" {self.number}" if self.number is not None else "",
             f" {self.name}" if self.name is not None else "",
         )
-
-    def get_process_by_ip(self, pid: int) -> Process:
-        for process in self.processes:
-            if process.pid == pid:
-                return process
-
-    def get_process_by_name(self, name: str) -> Process:
-        for process in self.processes:
-            if process.name == name:
-                return process
