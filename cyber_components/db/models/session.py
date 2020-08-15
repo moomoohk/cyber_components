@@ -17,7 +17,7 @@ class Session(Component):
     number = Column(Integer)
     name = Column(String)
 
-    processes = relationship("Process", foreign_keys="Process.session_id", uselist=True, backref="session")
+    processes: List[Process] = relationship("Process", foreign_keys="Process.session_id", uselist=True, backref="session")
 
     __mapper_args__ = {
         "polymorphic_identity": "session",
