@@ -1,6 +1,6 @@
 from enum import Enum
 from ipaddress import IPv4Interface as _IPv4Interface, IPv6Interface as _IPv6Interface, ip_network
-from typing import List
+from typing import List, Optional
 
 from cyber_components.db.connection import Connection
 from cyber_components.db.models.component import Component
@@ -132,5 +132,9 @@ class NetworkInterface(Component):
             f" ({self.ip.ip})" if self.ip is not None else "",
         )
 
-    def get_port(self, number: int):
-        return Connection.session.query(Port).filter_by(number=number, parent_id=self.id).one_or_none()
+    def get_port(self, number: int, protocol) -> Optional[Port]:
+        return Connection.session.query(Port).filter_by(
+            number=number,
+            parent_id=self.id,
+            protocol=protocol
+        ).one_or_none()
